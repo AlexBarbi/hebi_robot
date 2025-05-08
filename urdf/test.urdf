@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<robot name="simple_robot">
+
+    <!-- World Frame -->
+    <link name="world"/>
+    <joint name="world_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    </joint>
+
+    <!-- Base Link -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://intro_robotics_labs/my_CAD/chassis1.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="gray"><color rgba="0.5 0.5 0.5 1"/></material>
+        </visual>
+    </link>
+
+    <!-- Suspension Joint -->
+    <joint name="lr_shoulder1_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="lr_shoulder"/>
+        <origin xyz="-0.05 0.3 0" rpy="0 0 ${pi/2}"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="${-pi/2}" upper="${3.14/2}" effort="100" velocity="1.0"/>
+        <dynamics damping="0.5" friction="0.2"/>
+    </joint>
+
+    <!-- Left rear shoulder link -->
+    <link name="lr_shoulder">
+        <visual>
+            <geometry>
+                <mesh filename="package://intro_robotics_labs/my_CAD/wheel.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="black"><color rgba="0 0 0 1"/></material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="package://intro_robotics_labs/my_CAD/wheel.stl" scale="0.01 0.01 0.01"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+        </inertial>
+    </link>
+
+    <!-- Left Wheel Joint -->
+    <joint name="lr_shoulder2_joint" type="fixed">
+        <parent link="lr_shoulder"/>
+        <child link="lr_leg"/>
+        <origin xyz="0 -0.025 -0.1" rpy="0 0 0"/> <!-- Offset below suspension -->
+        <axis xyz="0 1 0"/>
+        <limit effort="100" velocity="10"/>
+        <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+    <!-- Suspension Leg -->
+    <link name="lr_leg">
+        <visual>
+            <geometry>
+                <cylinder radius="0.02" length="0.1"/>
+            </geometry>
+            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <material name="silver"><color rgba="0.75 0.75 0.75 1"/></material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.01" length="0.1"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>
+        </inertial>
+    </link>
+
+    <!-- Suspensions joint -->
+    <joint name="lr_suspention_ext_joint" type="prismatic">
+        <parent link="lr_leg"/>
+        <child link="lr_leg_ext"/>
+        <origin xyz="0 0.05 0" rpy="0 0 0"/> 
+        <axis xyz="0 0 -1"/>
+        <limit lower="0.0" upper="0.065" effort="100" velocity="10"/>
+        <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+    <!-- Suspention external -->
+    <link name="lr_leg_ext">
+        <visual>
+            <geometry>
+                <cylinder radius="0.0075" length="0.1"/>
+            </geometry>
+            <origin xyz="0 -0.05 0.025" rpy="0 0 0"/>
+            <material name="silver"><color rgba="0.75 0.75 0.75 1"/></material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.01" length="0.1"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>
+        </inertial>
+    </link>
+
+    <!-- Foot Joint -->
+    <joint name="lr_foot_joint" type="revolute">
+        <parent link="lr_leg_ext"/>
+        <child link="lr_foot"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <!-- <limit effort="100" velocity="10"/> -->
+        <limit lower="0" upper="${pi/3}" effort="100" velocity="1.0"/>
+        <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+    <link name="lr_foot">
+        <visual>
+            <geometry>
+                <cylinder radius="0.015" length="0.15"/>
+            </geometry>
+            <origin xyz="0.05 -0.05 -0.025" rpy="0 ${-pi/2} 0"/>
+            <material name="silver"><color rgba="0.75 0.75 0.75 1"/></material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.015" length="0.15"/>
+            </geometry>
+            <origin xyz="0 -0.05 -0.025" rpy="0 0 0"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>
+        </inertial>
+    </link>
+
+</robot>
