@@ -172,6 +172,37 @@
         <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>
       </inertial>
     </link>
+
+    <!-- Wheel front -->
+    <joint name="${prefix}_wheel_front_joint" type="revolute">
+      <parent link="${prefix}_foot"/>
+      <child link="${prefix}_wheel_front"/>
+      <origin xyz="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="${-100}" upper="${100}" effort="100" velocity="1.0"/>
+      <dynamics damping="0.1" friction="0.1"/>
+    </joint>
+
+    <link name="${prefix}_wheel_front">
+      <visual>
+        <geometry>
+          <shpere radius="0.05"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 ${-pi/2} 0"/>
+        <material name="silver"><color rgba="0.75 0.75 0.75 1"/></material>
+      </visual>
+      <collision>
+        <geometry>
+          <shpere radius="0.05"/>
+        </geometry>
+        <origin xyz="0 0 0"/>
+      </collision>
+      <inertial>
+        <mass value="1.0"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>
+      </inertial>
+    </link>
   </xacro:macro>
 
   <!-- ================= Instantiate Legs ================= -->
