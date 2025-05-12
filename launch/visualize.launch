@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <launch>
      
-     <arg name="rviz_conf" default="$(find intro_robotics_labs)/rviz/config.rviz"/>
-     <arg name="robot_name" default="ur4"/>
+     <arg name="rviz_conf" default="$(find hebi_robot)/rviz/config.rviz"/>
+     <arg name="robot_name" default="hebi"/>
      <arg name="test_joints" default="true"/>
 
      <!-- send the robot XML to param server -->
-     <param name="robot_description" command="$(find xacro)/xacro '$(find intro_robotics_labs)/urdf/$(arg robot_name).urdf'" />
+     <param name="robot_description" command="$(find xacro)/xacro '$(find hebi_robot)/urdf/$(arg robot_name).urdf'" />
      
     
     <!-- run rviz -->

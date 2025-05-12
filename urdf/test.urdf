@@ -13,7 +13,7 @@
     <link name="base_link">
         <visual>
             <geometry>
-                <mesh filename="package://intro_robotics_labs/my_CAD/chassis1.stl" scale="0.01 0.01 0.01"/>
+                <mesh filename="package://hebi_robot/my_CAD/chassis1.stl" scale="0.01 0.01 0.01"/>
             </geometry>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <material name="gray"><color rgba="0.5 0.5 0.5 1"/></material>
@@ -34,14 +34,14 @@
     <link name="lr_shoulder">
         <visual>
             <geometry>
-                <mesh filename="package://intro_robotics_labs/my_CAD/wheel.stl" scale="0.01 0.01 0.01"/>
+                <mesh filename="package://hebi_robot/my_CAD/wheel.stl" scale="0.01 0.01 0.01"/>
             </geometry>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <material name="black"><color rgba="0 0 0 1"/></material>
         </visual>
         <collision>
             <geometry>
-                <mesh filename="package://intro_robotics_labs/my_CAD/wheel.stl" scale="0.01 0.01 0.01"/>
+                <mesh filename="package://hebi_robot/my_CAD/wheel.stl" scale="0.01 0.01 0.01"/>
             </geometry>
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </collision>

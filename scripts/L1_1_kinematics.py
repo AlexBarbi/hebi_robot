@@ -23,8 +23,10 @@ import L1_conf as conf
 
 os.system("killall rosmaster rviz")
 #instantiate graphic utils
-ros_pub = RosPub("ur4")
-robot = getRobotModel("ur4")
+ros_pub = RosPub("HEBI")
+robot = getRobotModel("HEBI")
+
+print("sas")
 
 # Init variables
 zero = np.array([0.0, 0.0, 0.0, 0.0])
