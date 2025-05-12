@@ -18,13 +18,18 @@ class RobotWrapper(PinocchioRobotWrapper):
         #additional var
 
         # robot mass
+        print("robot_model: ", robot.model)
+
         pin.crba(robot.model, robot.data, pin.neutral(robot.model))
         robot.robotMass = robot.data.M[0, 0]
+
+        # print("robot mass: ", robot.robotMass)
+        
         # TODO: fix in all files (robotMass is prefered)
         robot.robot_mass = robot.robotMass
         #number of attive joints
-        if (robot.model.joints[1].nq == 7):
-            robot.na = robot.model.nv - 6
+        if (robot.model.joints[1].nq == 25):
+            robot.na = robot.model.nv - 24
         else:
             robot.na = robot.model.nv
         # ee frames, ndeces and names

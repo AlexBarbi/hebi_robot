@@ -14,12 +14,12 @@ import L2_conf as conf
 
 #instantiate graphic utils
 os.system("killall rosmaster rviz")
-ros_pub = RosPub("ur5")
-robot = getRobotModel("ur5")
+ros_pub = RosPub("HEBI")
+robot = getRobotModel("HEBI")
 
 
 # Init variables
-zero = np.array([0.0, 0.0,0.0, 0.0, 0.0, 0.0])
+zero = np.zeros(25)
 time = 0.0
 
 two_pi_f             = 2*np.pi*conf.freq   # frequency (time 2 PI)
@@ -28,13 +28,13 @@ two_pi_f_squared_amp = np.multiply(two_pi_f, two_pi_f_amp)
 
 # Init loggers
 buffer_size = int(math.floor(conf.exp_duration/conf.dt))
-q_log = np.empty((6, buffer_size))*nan
-q_des_log = np.empty((6, buffer_size))*nan
-qd_log = np.empty((6, buffer_size))*nan
-qd_des_log = np.empty((6, buffer_size))*nan
-qdd_log = np.empty((6, buffer_size))*nan
-qdd_des_log = np.empty((6, buffer_size))*nan
-tau_log = np.empty((6, buffer_size))*nan
+q_log = np.empty((24, buffer_size))*nan
+q_des_log = np.empty((24, buffer_size))*nan
+qd_log = np.empty((24, buffer_size))*nan
+qd_des_log = np.empty((24, buffer_size))*nan
+qdd_log = np.empty((24, buffer_size))*nan
+qdd_des_log = np.empty((24, buffer_size))*nan
+tau_log = np.empty((24, buffer_size))*nan
 f_log = np.empty((3,buffer_size))*nan
 p_log = np.empty((3, buffer_size))*nan
 time_log =  np.empty((buffer_size))*nan
@@ -105,9 +105,9 @@ while True:
     #compute ee position  in the world frame  
     p = robot.framePlacement(q, frame_ee).translation 
     # compute jacobian of the end effector in the world frame  
-    J6 = robot.frameJacobian(q, frame_ee, False, pin.ReferenceFrame.LOCAL_WORLD_ALIGNED)                    
-    # take first 3 rows of J6 cause we have a point contact            
-    J = J6[:3,:] 
+    J24 = robot.frameJacobian(q, frame_ee, False, pin.ReferenceFrame.LOCAL_WORLD_ALIGNED)                    
+    # take first 3 rows of J24 cause we have a point contact            
+    J = J24[:3,:] 
 
         
     # EXERCISE  1.5: PD control - critical damping
@@ -121,7 +121,7 @@ while True:
     # print (conf.kd[4,4])
 
     # EXERCISE  2.3: Inverse Dynamics (computed torque) - low gains
-#    conf.kp = np.eye(6)*60
+#    conf.kp = np.eye(24)*240
 #    conf.kd[0,0] = 2*np.sqrt(conf.kp[0,0])
 #    conf.kd[1,1] = 2*np.sqrt(conf.kp[1,1])
 #    conf.kd[2,2] = 2*np.sqrt(conf.kp[2,2])
@@ -133,7 +133,7 @@ while True:
     #Exercise 1.3:  PD control
     tau = conf.kp.dot(q_des-q) + conf.kd.dot(qd_des-qd)
     
-    # Exercise 1.6: PD control + Gravity Compensation
+    # Exercise 1.24: PD control + Gravity Compensation
     #tau = conf.kp.dot(q_des-q) + conf.kd.dot(qd_des-qd)  + g
     
     # Exercise 1.7: PD + gravity + Feed-Forward term   
@@ -148,7 +148,7 @@ while True:
     # h_hat  = h*1.1
     # tau = M_hat.dot(qdd_des + conf.kp.dot(q_des-q) + conf.kd.dot(qd_des-qd)) + h_hat
 
-    # EXERCISE 2.6  Inverse Dynamics (Desired states)
+    # EXERCISE 2.24  Inverse Dynamics (Desired states)
     # M_des = robot.mass(q_des)
     # h_des = robot.nle(q_des, qd_des)
     # tau = M_des.dot(qdd_des + conf.kp.dot(q_des-q) + conf.kd.dot(qd_des-qd)) + h_des

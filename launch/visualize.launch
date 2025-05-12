@@ -2,7 +2,7 @@
 <launch>
      
      <arg name="rviz_conf" default="$(find hebi_robot)/rviz/config.rviz"/>
-     <arg name="robot_name" default="hebi"/>
+     <arg name="robot_name" default="HEBI"/>
      <arg name="test_joints" default="true"/>
 
      <!-- send the robot XML to param server -->
