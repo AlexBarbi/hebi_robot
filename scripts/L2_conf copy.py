@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Apr 18 09:47:07 2019
+Adapted for HEBI robot
 
 @author: student
 """
@@ -9,20 +9,20 @@ import numpy as np
 import os
 
 dt = 0.001                                          # controller time step [s]
-exp_duration = 5.0                                  # simulation duration
+exp_duration = 15.0                                  # simulation duration
 SLOW_FACTOR = 1                                     # to slow down simulation
-frame_name = 'ee_link'                              # name of the frame to control (end-effector)
+frame_name = 'lf_foot'                              # name of the frame to control (end-effector)
 
 # PD controller
 ## Matrix of gains
-kp = np.eye(6)*300                                  # proportional gains
-kd = np.eye(6)*20                                   # derivative gains
+kp = np.eye(24)*300                                  # proportional gains
+kd = np.eye(24)*20                                   # derivative gains
 
 ## Parameters of the reference sinusoidal trajectory (1, 2, 3, 4, 5, 6)
 exp_duration_sin = exp_duration - 1.0               # sine reference duration
-amp = np.array([ 0.0, 0.2, 0.0, 0.0, 0.4, 0.0])     # amplitude
-phi = np.array([ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])     # phase
-freq = np.array([ 0.0, 1.0, 0.0, 0.0, 1.5, 0.0])    # frequency
+amp = np.array([ 0.0, 0.2, 0.0, 0.0, 0.4, 0.0, 0.0, 0.2, 0.0, 0.0, 0.4, 0.0, 0.0, 0.2, 0.0, 0.0, 0.4, 0.0, 0.0, 0.2, 0.0, 0.0, 0.4, 0.0])     # amplitude
+phi = np.array([ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])     # phase
+freq = np.array([ 0.0, 1.0, 0.0, 0.0, 1.5, 0.0, 0.0, 1.0, 0.0, 0.0, 1.5, 0.0, 0.0, 1.0, 0.0, 0.0, 1.5, 0.0, 0.0, 1.0, 0.0, 0.0, 1.5, 0.0])    # frequency
 
 ## EXERCISE 1.4: Bigger inertia variation on joint 2
 #amp = np.array([ 0.0, 0.4, 0.8, 0.0, 0.4, 0.0])    # amplitude
@@ -33,6 +33,9 @@ freq = np.array([ 0.0, 1.0, 0.0, 0.0, 1.5, 0.0])    # frequency
 q0 = np.array([ 0.0, -0.3, 0.5, -1.57, -1.57, 0.5]) # joint configuration
 qd0 = np.array([ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])     # joint velocity
 qdd0 = np.array([ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])    # joint acceleration
+q0 = np.zeros(24) # joint configuration
+qd0 = np.zeros(24)     # joint velocity
+qdd0 = np.zeros(24)    # joint acceleration
 
 #EXERCISE 1.4: high gains
 #Kp = np.eye(6)*600
