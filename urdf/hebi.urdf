@@ -6,6 +6,7 @@
 
   <!-- Base -->
   <link name="world"/>
+  
   <joint name="world_joint" type="fixed">
     <parent link="world"/>
     <child link="base_link"/>
@@ -21,16 +22,15 @@
       <material name="gray"><color rgba="0.5 0.5 0.5 1"/></material>
     </visual>
     <collision>
-      <geometry>
-        <mesh filename="package://hebi_robot/my_CAD/chassis-Body.stl" scale="0.01 0.01 0.01"/>
-      </geometry>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-    </collision>
+        <geometry>
+          <mesh filename="package://hebi_robot/my_CAD/chassis-Body.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
+      </collision>
     <inertial>
-      <mass value="1.0"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
-    </inertial> 
+        <mass value="0.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+      </inertial>
   </link>
   <!-- blu è Z , verde è Y, rosso è X-->
 
