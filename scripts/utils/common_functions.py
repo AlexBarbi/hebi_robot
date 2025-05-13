@@ -324,7 +324,7 @@ def getRobotModel(robot_name="hyq", generate_urdf = False, xacro_path = None, ad
     else:
 
         urdf      = path + "/urdf/" + robot_name+ ".urdf"
-        print(urdf)
+        # print(urdf)
         robot = RobotWrapper.BuildFromURDF(urdf, [path,srdf ])
     
     return robot                    
