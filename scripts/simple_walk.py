@@ -52,6 +52,7 @@ amp = 0.4                     # amplitude
 phase_shift = np.pi          # for trot gait
 
 # Leg joint indices
+# Shoulder, Fixed, Prismatic, Pitch, Fixed, Roll
 FL = [0,1,2,3,4,5]   # Front Left
 FR = [6,7,8,9,10,11]   # Front Right
 RL = [12,13,14,15,16,17]   # Rear Left
