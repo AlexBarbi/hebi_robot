@@ -51,13 +51,13 @@ phase_shift = np.pi          # for trot gait
 
 # Leg joint indices
 # Shoulder, Fixed, Prismatic, Pitch, Fixed, Roll
-FL = [0]   # Front Left
-FR = [6]   # Front Right
-RL = [12]   # Rear Left
-RR = [18]   # Rear Right
+FL,FL1 = [0],[1]   # Front Left
+FR,FR1 = [6],[7]   # Front Right
+RL,RL1 = [12],[13]   # Rear Left
+RR,RR1 = [18],[19]   # Rear Right
 
 while time < conf.exp_duration:
-    # Desired joint trajectories
+    # Desired shoulder trajectories
     for leg, phase in zip([FL, RR], [0.0, 0.0]):
         for j in leg:
             q_des[j]  = conf.q0[j] + amp * np.sin(omega * time + phase)
@@ -69,6 +69,17 @@ while time < conf.exp_duration:
             q_des[j]  = conf.q0[j] + amp * np.sin(omega * time + phase)
             qd_des[j] = amp * omega * np.cos(omega * time + phase)
             qdd_des[j] = -amp * omega**2 * np.sin(omega * time + phase)
+    # Desired prismatic trajectories
+    for leg, phase in zip([FL1, RR1], [0.0, 0.0]):
+        for j in leg:
+            q_des[j]  = conf.q0[j] + amp * np.sin(omega / 2 * time + phase)
+            qd_des[j] = amp * omega * np.cos(omega /2 * time + phase)
+            qdd_des[j] = -amp * omega**2 * np.sin(omega / 2 * time + phase)
+    for leg, phase in zip([FR1, RL1], [phase_shift, phase_shift]):
+        for j in leg:
+            q_des[j]  = conf.q0[j] + amp * np.sin(omega / 2 * time + phase)
+            qd_des[j] = amp * omega * np.cos(omega / 2 * time + phase)
+            qdd_des[j] = -amp * omega**2 * np.sin(omega / 2 * time + phase)
 
     # Enforce joint limits on desired position
     q_des = np.clip(q_des, joint_min, joint_max)
