@@ -1,15 +1,11 @@
 #!/usr/bin/env python
 
-import xacro
-import tempfile
+#common stuff
+from __future__ import print_function
 import pinocchio as pin
-from pathlib import Path
-
-import rospy
-from sensor_msgs.msg import JointState
-from std_msgs.msg import Header
-import time
-import numpy as np
+from numpy import nan
+import math
+import time as tm
 
 from utils.common_functions import *
 from utils.ros_publish import RosPub

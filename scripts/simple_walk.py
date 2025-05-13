@@ -37,9 +37,7 @@ joint_min = np.array([-1.5] * len(q))
 joint_max = np.array([ 1.5] * len(q))
 
 # Assuming the prismatic joints are at indices 3, 9, 15, and 21
-# prismatic_joint_indices = [3, 9, 15, 21]
-# prismatic_joint_indices = [2, 8, 14, 20]  # Adjusted indices for prismatic joints
-prismatic_joint_indices = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+prismatic_joint_indices = [1, 7, 13, 19]  # Adjusted indices for prismatic joints
 
 # Set prismatic joint limits (min: 0.0, max: 0.5)
 for idx in prismatic_joint_indices:
@@ -53,10 +51,10 @@ phase_shift = np.pi          # for trot gait
 
 # Leg joint indices
 # Shoulder, Fixed, Prismatic, Pitch, Fixed, Roll
-FL = [0,1,2,3,4,5]   # Front Left
-FR = [6,7,8,9,10,11]   # Front Right
-RL = [12,13,14,15,16,17]   # Rear Left
-RR = [18,19,20,21,22,23]   # Rear Right
+FL = [0]   # Front Left
+FR = [6]   # Front Right
+RL = [12]   # Rear Left
+RR = [18]   # Rear Right
 
 while time < conf.exp_duration:
     # Desired joint trajectories
