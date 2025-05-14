@@ -1,0 +1,17 @@
+<launch>
+  <arg name="robot_name" default="HEBI"/>
+  <arg name="world_file" default="$(find hebi_robot)/worlds/no_gravity.world"/>
+
+  <!-- Launch Gazebo with an empty world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_file)"/>
+  </include>
+
+  <!-- Upload robot description to parameter server -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find hebi_robot)/urdf/$(arg robot_name).urdf'" />
+
+  <!-- Spawn the robot in Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-param robot_description -urdf -model $(arg robot_name)"
+        output="screen" />
+</launch>
