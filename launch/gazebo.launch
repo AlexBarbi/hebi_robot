@@ -1,0 +1,26 @@
+<launch>    
+    <arg name="model_name" default="HEBI"/>
+    <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz/urdf.rviz"/>
+    <arg name="x_pos" default="0.0"/>
+    <arg name="y_pos" default="0.0"/>
+    <arg name="z_pos" default="1.0"/>
+    
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="debug" value="false"/>
+    </include>
+
+    <param name="robot_description" command="$(find xacro)/xacro $(find hebi_robot)/urdf/HEBI.urdf.xacro" />    
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -model $(arg model_name) -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos)"/>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen">
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+
+    <!-- Launch RViz -->
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true"/> -->
+</launch>

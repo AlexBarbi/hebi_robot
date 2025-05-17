@@ -5,24 +5,27 @@
   <xacro:property name="pi" value="3.141592653589793"/>
 
   <!-- Base -->
+  <!--
   <link name="world"/>
+
   <joint name="world_joint" type="fixed">
     <parent link="world"/>
     <child link="base_link"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
   </joint>
+  -->
 
   <link name="base_link">
     <visual>
       <geometry>
-        <mesh filename="package://hebi_robot/my_CAD/chassis-Body.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://hebi_robot/meshes/chassis-Body.stl" scale="0.01 0.01 0.01"/>
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <material name="gray"><color rgba="0.5 0.5 0.5 1"/></material>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://hebi_robot/my_CAD/chassis-Body.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://hebi_robot/meshes/chassis-Body.stl" scale="0.01 0.01 0.01"/>
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </collision>
@@ -49,14 +52,14 @@
     <link name="${left}_shoulder">
       <visual>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/shoulder.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hebi_robot/meshes/shoulder.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0 0 0" rpy="${-pi/2} 0 ${pi/2}"/>
         <material name="black"><color rgba="0 0 0 1"/></material>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/shoulder.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hebi_robot/meshes/shoulder.stl" scale="0.01 0.01 0.01"/>
         </geometry>
       </collision>
       <inertial>
@@ -254,14 +257,14 @@
     <link name="${left}_wheel_front">
       <visual>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/wheel.stl" scale="0.001 0.001 0.001"/>        
+          <mesh filename="package://hebi_robot/meshes/wheel.stl" scale="0.001 0.001 0.001"/>        
         </geometry>
         <origin xyz="0 0 0" rpy="${-pi/2} ${pi/2} 0"/>
         <material name="silver"><color rgba="0.75 0.75 0.75 1"/></material>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/wheel.stl" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://hebi_robot/meshes/wheel.stl" scale="0.001 0.001 0.001"/>
         </geometry>
         <origin xyz="0 0 0"/>
       </collision>
@@ -285,14 +288,14 @@
     <link name="${left}_wheel_rear">
       <visual>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/wheel.stl" scale="0.001 0.001 0.001"/>    
+          <mesh filename="package://hebi_robot/meshes/wheel.stl" scale="0.001 0.001 0.001"/>    
         </geometry>
           <origin xyz="0 0 0" rpy="${-pi/2} ${pi/2} 0"/>
         <material name="silver"><color rgba="0.75 0.75 0.75 1"/></material>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/wheel.stl" scale="0.001 0.001 0.001"/>    
+          <mesh filename="package://hebi_robot/meshes/wheel.stl" scale="0.001 0.001 0.001"/>    
         </geometry>
         <origin xyz="0 0 0"/>
       </collision>
@@ -320,14 +323,14 @@
     <link name="${right}_shoulder">
       <visual>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/shoulder.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hebi_robot/meshes/shoulder.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <origin xyz="0 0 0" rpy="${-pi/2} 0 ${pi/2}"/>
         <material name="black"><color rgba="0 0 0 1"/></material>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/shoulder.stl" scale="0.01 0.01 0.01"/>
+          <mesh filename="package://hebi_robot/meshes/shoulder.stl" scale="0.01 0.01 0.01"/>
         </geometry>
       </collision>
       <inertial>
@@ -525,14 +528,14 @@
     <link name="${right}_wheel_front">
       <visual>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/wheel.stl" scale="0.001 0.001 0.001"/>        
+          <mesh filename="package://hebi_robot/meshes/wheel.stl" scale="0.001 0.001 0.001"/>        
         </geometry>
         <origin xyz="0 0 0" rpy="${-pi/2} ${-pi/2} 0"/>
         <material name="silver"><color rgba="0.75 0.75 0.75 1"/></material>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/wheel.stl" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://hebi_robot/meshes/wheel.stl" scale="0.001 0.001 0.001"/>
         </geometry>
         <origin xyz="0 0 0"/>
       </collision>
@@ -556,14 +559,14 @@
     <link name="${right}_wheel_rear">
       <visual>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/wheel.stl" scale="0.001 0.001 0.001"/>    
+          <mesh filename="package://hebi_robot/meshes/wheel.stl" scale="0.001 0.001 0.001"/>    
         </geometry>
           <origin xyz="0 0 0" rpy="${-pi/2} ${-pi/2} 0"/>
         <material name="silver"><color rgba="0.75 0.75 0.75 1"/></material>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://hebi_robot/my_CAD/wheel.stl" scale="0.001 0.001 0.001"/>    
+          <mesh filename="package://hebi_robot/meshes/wheel.stl" scale="0.001 0.001 0.001"/>    
         </geometry>
         <origin xyz="0 0 0"/>
       </collision>
