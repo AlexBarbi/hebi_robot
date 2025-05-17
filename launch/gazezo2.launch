@@ -1,0 +1,44 @@
+<launch>
+  <arg name="paused" default="false" doc="Start Gazebo paused"/>
+  <arg name="use_sim_time" default="true" doc="Use simulation time"/>
+  <arg name="gui" default="true" doc="Launch Gazebo GUI"/>
+  <arg name="headless" default="false" doc="Launch Gazebo headless (no GUI)"/>
+  <arg name="debug" default="false" doc="Start Gazebo in debug mode"/>
+  <arg name="world_name" default="worlds/empty.world" doc="Gazebo world to load"/>
+  <arg name="model_name" default="brum" doc="Name of the robot model in Gazebo"/>
+  <arg name="x_pos" default="0.0"/>
+  <arg name="y_pos" default="0.0"/>
+  <arg name="z_pos" default="0.0"/> <param name="/use_sim_time" value="$(arg use_sim_time)"/>
+
+  <arg name="world_file" default="$(find hebi_robot)/worlds/no_gravity.world"/>
+
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_file)"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
+
+  <param name="robot_description" command="$(find xacro)/xacro '$(find hebi_robot)/urdf/HEBI.urdf'" />
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -model $(arg model_name) -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos)"/>
+
+  <rosparam file="$(find hebi_robot)/config/controllers.yaml" command="load"/>
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/" args="
+            joint_state_controller
+            lf_wheel_front_joint
+            lr_wheel_front_joint
+            rf_wheel_front_joint
+            rr_wheel_front_joint
+            --shutdown-timeout 3
+            "/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen">
+        <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+
+</launch>

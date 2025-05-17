@@ -1,11 +1,14 @@
-<launch>    
-    <arg name="model_name" default="HEBI"/>
-    <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz/urdf.rviz"/>
+<launch>
+    <arg name="robot_name" default="HEBI"/>
+    <arg name="world_file" default="$(find hebi_robot)/worlds/no_gravity.world"/>
+
     <arg name="x_pos" default="0.0"/>
     <arg name="y_pos" default="0.0"/>
     <arg name="z_pos" default="1.0"/>
-    
+
+    <!-- Launch Gazebo with an empty world -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(arg world_file)"/>
         <arg name="paused" value="false"/>
         <arg name="use_sim_time" value="true"/>
         <arg name="gui" value="true"/>
@@ -16,11 +19,12 @@
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
         args="-urdf -model $(arg model_name) -param robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos)"/>
 
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" args="joint1_position_controller joint2_position_controller ... --controller-manager /controller_manager" />
+
+    <!-- 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
         respawn="false" output="screen">
         <param name="publish_frequency" type="double" value="50.0" />
     </node>
-
-    <!-- Launch RViz -->
-    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true"/> -->
+    
 </launch>

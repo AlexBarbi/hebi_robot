@@ -29,10 +29,14 @@
     </collision>
     <inertial>
       <mass value="1.0"/>
-      <origin xyz="0 0 0"/>
+      <origin xyz="0 0 1"/>
       <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
     </inertial>
   </link>
+  <gazebo reference="base_link">
+    <gravity>0</gravity>
+  </gazebo>
+
   <!-- blu è Z , verde è Y, rosso è X-->
   <!-- Shoulder -->
   <joint name="rf_shoulder1_joint" type="revolute">
@@ -40,7 +44,7 @@
     <child link="rf_shoulder"/>
     <origin rpy="0 1.5707963267948966 0" xyz="0.075 0.125 0"/>
     <axis xyz="0 0 1"/>
-    <limit effort="100" lower="-1.5707963267948966" upper="1.5707963267948966" velocity="1.0"/>
+    <limit effort="100" lower="-1.5707963267948966" upper="1.5707963267948966" velocity="10.0"/>
     <dynamics damping="0.5" friction="0.2"/>
   </joint>
   <link name="rf_shoulder">
@@ -97,7 +101,7 @@
     <child link="rf_leg_ext"/>
     <origin xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit effort="100" lower="0.0" upper="0.075" velocity="10"/>
+    <limit effort="100" lower="0.0" upper="0.075" velocity="1"/>
     <dynamics damping="0.1" friction="0.1"/>
   </joint>
   <link name="rf_leg_ext">
@@ -1102,4 +1106,167 @@
       <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>
     </inertial>
   </link>
+
+  <!-- Transmissions -->
+  <transmission name="rf_shoulder1_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rf_shoulder1_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rf_shoulder1_motor"/>
+  </transmission>
+
+  <transmission name="rf_foot_joint_pitch_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rf_foot_joint_pitch">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rf_foot_joint_pitch_motor"/>
+  </transmission>
+
+  <transmission name="rf_foot_joint_roll_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rf_foot_joint_roll">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rf_foot_joint_roll_motor"/>
+  </transmission>
+
+  <transmission name="rf_wheel_front_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rf_wheel_front_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rf_wheel_front_motor"/>
+  </transmission>
+
+  <transmission name="rf_wheel_rear_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rf_wheel_rear_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rf_wheel_rear_motor"/>
+  </transmission>
+
+  <transmission name="lr_shoulder1_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lr_shoulder1_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lr_shoulder1_motor"/>
+  </transmission>
+
+  <transmission name="lr_foot_joint_pitch_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lr_foot_joint_pitch">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lr_foot_joint_pitch_motor"/>
+  </transmission>
+
+  <transmission name="lr_foot_joint_roll_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lr_foot_joint_roll">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lr_foot_joint_roll_motor"/>
+  </transmission>
+
+  <transmission name="lr_wheel_front_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lr_wheel_front_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lr_wheel_front_motor"/>
+  </transmission>
+
+  <transmission name="lr_wheel_rear_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lr_wheel_rear_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lr_wheel_rear_motor"/>
+  </transmission>
+
+  <transmission name="rr_shoulder1_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rr_shoulder1_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rr_shoulder1_motor"/>
+  </transmission>
+
+  <transmission name="rr_foot_joint_pitch_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rr_foot_joint_pitch">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rr_foot_joint_pitch_motor"/>
+  </transmission>
+
+  <transmission name="rr_foot_joint_roll_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rr_foot_joint_roll">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rr_foot_joint_roll_motor"/>
+  </transmission>
+
+  <transmission name="rr_wheel_front_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rr_wheel_front_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rr_wheel_front_motor"/>
+  </transmission>
+
+  <transmission name="rr_wheel_rear_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rr_wheel_rear_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rr_wheel_rear_motor"/>
+  </transmission>
+
+  <transmission name="lf_shoulder1_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lf_shoulder1_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lf_shoulder1_motor"/>
+  </transmission>
+
+  <transmission name="lf_foot_joint_pitch_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lf_foot_joint_pitch">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lf_foot_joint_pitch_motor"/>
+  </transmission>
+
+  <transmission name="lf_foot_joint_roll_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lf_foot_joint_roll">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lf_foot_joint_roll_motor"/>
+  </transmission>
+
+  <transmission name="lf_wheel_front_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lf_wheel_front_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lf_wheel_front_motor"/>
+  </transmission>
+
+  <transmission name="lf_wheel_rear_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lf_wheel_rear_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lf_wheel_rear_motor"/>
+  </transmission>
+
+
 </robot>

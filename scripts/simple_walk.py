@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #common stuff
 from __future__ import print_function
@@ -6,6 +6,8 @@ import pinocchio as pin
 from numpy import nan
 import math
 import time as tm
+import rospy
+from sensor_msgs.msg import JointState
 
 from utils.common_functions import *
 from utils.ros_publish import RosPub
@@ -17,12 +19,11 @@ import L2_conf as conf
 # ros_pub = RosPub("HEBI")
 robot = getRobotModel("HEBI")
 
-# model= robot.model
-# data = robot.data
-# # Print joint names
-# for i, joint in enumerate(model.joints):
-#     print(f"Joint {i}: {joint.name}")
-# print(scartoffie)
+# Initialize ROS node
+rospy.init_node('simple_walk', anonymous=True)
+
+# Gazebo JointState publisher
+joint_state_pub = rospy.Publisher('/joint_states', JointState, queue_size=10)
 
 time = 0.0
 q = conf.q0.copy()
@@ -37,9 +38,7 @@ joint_min = np.array([-1.5] * len(q))
 joint_max = np.array([ 1.5] * len(q))
 
 # Assuming the prismatic joints are at indices 3, 9, 15, and 21
-# prismatic_joint_indices = [3, 9, 15, 21]
-# prismatic_joint_indices = [2, 8, 14, 20]  # Adjusted indices for prismatic joints
-prismatic_joint_indices = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+prismatic_joint_indices = [1, 7, 13, 19]  # Adjusted indices for prismatic joints
 
 # Set prismatic joint limits (min: 0.0, max: 0.5)
 for idx in prismatic_joint_indices:
@@ -52,14 +51,14 @@ amp = 0.4                     # amplitude
 phase_shift = np.pi          # for trot gait
 
 # Leg joint indices
-# Shoulder, Fixed, Prismatic, Pitch, Fixed,
-FL = [0,1,2,3,4,5]   # Front Left
-FR = [6,7,8,9,10,11]   # Front Right
-RL = [12,13,14,15,16,17]   # Rear Left
-RR = [18,19,20,21,22,23]   # Rear Right
+# Shoulder, Fixed, Prismatic, Pitch, Fixed, Roll
+FL,FL1 = [0],[1]   # Front Left
+FR,FR1 = [6],[7]   # Front Right
+RL,RL1 = [12],[13]   # Rear Left
+RR,RR1 = [18],[19]   # Rear Right
 
 while time < conf.exp_duration:
-    # Desired joint trajectories
+    # Desired shoulder trajectories
     for leg, phase in zip([FL, RR], [0.0, 0.0]):
         for j in leg:
             q_des[j]  = conf.q0[j] + amp * np.sin(omega * time + phase)
@@ -71,6 +70,17 @@ while time < conf.exp_duration:
             q_des[j]  = conf.q0[j] + amp * np.sin(omega * time + phase)
             qd_des[j] = amp * omega * np.cos(omega * time + phase)
             qdd_des[j] = -amp * omega**2 * np.sin(omega * time + phase)
+    # Desired prismatic trajectories
+    for leg, phase in zip([FL1, RR1], [0.0, 0.0]):
+        for j in leg:
+            q_des[j]  = conf.q0[j] + amp * np.sin(omega / 2 * time + phase)
+            qd_des[j] = amp * omega * np.cos(omega /2 * time + phase)
+            qdd_des[j] = -amp * omega**2 * np.sin(omega / 2 * time + phase)
+    for leg, phase in zip([FR1, RL1], [phase_shift, phase_shift]):
+        for j in leg:
+            q_des[j]  = conf.q0[j] + amp * np.sin(omega / 2 * time + phase)
+            qd_des[j] = amp * omega * np.cos(omega / 2 * time + phase)
+            qdd_des[j] = -amp * omega**2 * np.sin(omega / 2 * time + phase)
 
     # Enforce joint limits on desired position
     q_des = np.clip(q_des, joint_min, joint_max)
@@ -95,6 +105,16 @@ while time < conf.exp_duration:
 
     # Send to RViz
     ros_pub.publish(robot, q, qd, tau)
+
+    # Publish to Gazebo
+    joint_state_msg = JointState()
+    joint_state_msg.header.stamp = rospy.Time.now()
+    joint_state_msg.name = robot.model.names[1:]  # Exclude the base joint
+    joint_state_msg.position = q.tolist()
+    joint_state_msg.velocity = qd.tolist()
+    joint_state_msg.effort = tau.tolist()
+    joint_state_pub.publish(joint_state_msg)
+
     tm.sleep(conf.dt * conf.SLOW_FACTOR)
     time += conf.dt
 
@@ -102,5 +122,4 @@ while time < conf.exp_duration:
         print("Shutting down")
         break
 
-
-# ros_pub.deregister_node()
+ros_pub.deregister_node()
