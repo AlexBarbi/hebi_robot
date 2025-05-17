@@ -1,17 +1,20 @@
 <launch>
-  <arg name="robot_name" default="HEBI"/>
-  <arg name="world_file" default="$(find hebi_robot)/worlds/no_gravity.world"/>
+    <arg name="robot_name" default="HEBI"/>
+    <arg name="world_file" default="$(find hebi_robot)/worlds/no_gravity.world"/>
 
-  <!-- Launch Gazebo with an empty world -->
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(arg world_file)"/>
-  </include>
+    <!-- Launch Gazebo with an empty world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(arg world_file)"/>
+    </include>
 
-  <!-- Upload robot description to parameter server -->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find hebi_robot)/urdf/$(arg robot_name).urdf'" />
+    <!-- Upload robot description to parameter server -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find hebi_robot)/urdf/$(arg robot_name).urdf'" />
 
-  <!-- Spawn the robot in Gazebo -->
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
-        args="-param robot_description -urdf -model $(arg robot_name)"
+    <!-- Spawn the robot in Gazebo -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-param robot_description -urdf -model $(arg robot_name) -x 0 -y 0 -z 0.5"
         output="screen" />
+
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" args="joint1_position_controller joint2_position_controller ... --controller-manager /controller_manager" />
+
 </launch>

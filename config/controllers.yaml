@@ -1,0 +1,91 @@
+# Configuration for ros_control controllers
+
+# Joint State Controller: Publishes the state of all registered joints to /joint_states
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+# Mobile Base Controller (Differential Drive)
+# This controller assumes you have 'left_wheel_joint' and 'right_wheel_joint'
+# For 4WD, we'll map front and rear wheels on each side.
+# If your wheels are named differently, adjust the joint names below.
+# We will control pairs of wheels (left side, right side)
+# For true independent 4-wheel control, a skid_steer_drive_controller or individual velocity controllers are better.
+# This setup uses a diff_drive controller, which typically expects two wheels.
+# We will need to ensure the joints are named or aliased appropriately if we use this.
+# A simpler approach for 4WD is to control each wheel with a velocity controller
+# and then have a higher-level node (like teleop_twist_keyboard) publish to each.
+# For now, let's assume we want to control them as two sets (left and right).
+# The diff_drive_controller expects specific joint names or a mapping.
+# Let's try to use individual velocity controllers for each wheel as it's more flexible for 4WD.
+
+front_left_wheel_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: lf_wheel_front_joint
+  pid: {p: 10.0, i: 0.0, d: 1.0}
+
+front_right_wheel_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: lr_wheel_front_joint
+  pid: {p: 10.0, i: 0.0, d: 1.0}
+
+rear_left_wheel_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: rf_wheel_front_joint
+  pid: {p: 10.0, i: 0.0, d: 1.0}
+
+rear_right_wheel_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: rr_wheel_front_joint
+  pid: {p: 10.0, i: 0.0, d: 1.0}
+
+# If you prefer a differential drive controller:
+# You would need to ensure your XACRO defines 'left_wheel_joint' and 'right_wheel_joint'
+# or use remapping. For 4 wheels, you might group them.
+# For example, if front_left_wheel_joint and rear_left_wheel_joint should spin together,
+# they would need to be part of the 'left_wheels' array in the diff_drive_controller.
+# mobile_base_controller:
+#   type: "diff_drive_controller/DiffDriveController"
+#   left_wheel: ['front_left_wheel_joint', 'rear_left_wheel_joint'] # Or just one if mechanically coupled
+#   right_wheel: ['front_right_wheel_joint', 'rear_right_wheel_joint'] # Or just one
+#   publish_rate: 50
+#   pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+#   twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+#   cmd_vel_timeout: 0.25
+#   # Base frame_id
+#   base_frame_id: base_link
+#   # Odometry frame_id
+#   odom_frame_id: odom
+#   # Wheel parameters
+#   wheel_separation: ${base_width + wheel_thickness} # Effective separation, adjust as needed
+#   wheel_radius: ${wheel_radius}
+#   # Velocity and acceleration limits
+#   linear:
+#     x:
+#       has_velocity_limits    : true
+#       max_velocity         : 1.0  # m/s
+#       has_acceleration_limits: true
+#       max_acceleration     : 0.8  # m/s^2
+#   angular:
+#     z:
+#       has_velocity_limits    : true
+#       max_velocity         : 2.0  # rad/s
+#       has_acceleration_limits: true
+#       max_acceleration     : 1.5  # rad/s^2
+
+
+# RPR Arm Joint Controllers (Position Control)
+#arm_joint1_position_controller:
+#  type: position_controllers/JointPositionController
+#  joint: arm_joint1_revolute
+#  pid: {p: 100.0, i: 0.01, d: 10.0}
+
+#arm_joint2_position_controller:
+#  type: position_controllers/JointPositionController
+#  joint: arm_joint2_prismatic
+#  pid: {p: 100.0, i: 0.01, d: 10.0}
+
+#arm_joint3_position_controller:
+#  type: position_controllers/JointPositionController
+#  joint: arm_joint3_revolute
+#  pid: {p: 100.0, i: 0.01, d: 10.0}

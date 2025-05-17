@@ -6,6 +6,8 @@ import pinocchio as pin
 from numpy import nan
 import math
 import time as tm
+import rospy
+from sensor_msgs.msg import JointState
 
 from utils.common_functions import *
 from utils.ros_publish import RosPub
@@ -17,12 +19,11 @@ os.system("killall rosmaster rviz")
 ros_pub = RosPub("HEBI")
 robot = getRobotModel("HEBI")
 
-# model= robot.model
-# data = robot.data
-# # Print joint names
-# for i, joint in enumerate(model.joints):
-#     print(f"Joint {i}: {joint.name}")
-# print(scartoffie)
+# Initialize ROS node
+rospy.init_node('simple_walk', anonymous=True)
+
+# Gazebo JointState publisher
+joint_state_pub = rospy.Publisher('/joint_states', JointState, queue_size=10)
 
 time = 0.0
 q = conf.q0.copy()
@@ -104,12 +105,21 @@ while time < conf.exp_duration:
 
     # Send to RViz
     ros_pub.publish(robot, q, qd, tau)
+
+    # Publish to Gazebo
+    joint_state_msg = JointState()
+    joint_state_msg.header.stamp = rospy.Time.now()
+    joint_state_msg.name = robot.model.names[1:]  # Exclude the base joint
+    joint_state_msg.position = q.tolist()
+    joint_state_msg.velocity = qd.tolist()
+    joint_state_msg.effort = tau.tolist()
+    joint_state_pub.publish(joint_state_msg)
+
     tm.sleep(conf.dt * conf.SLOW_FACTOR)
     time += conf.dt
 
     if ros_pub.isShuttingDown():
         print("Shutting down")
         break
-
 
 ros_pub.deregister_node()
