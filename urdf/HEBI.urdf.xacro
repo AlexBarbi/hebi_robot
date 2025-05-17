@@ -49,6 +49,14 @@
       <dynamics damping="0.5" friction="0.2"/>
     </joint>
 
+    <transmission name="{left}_shoulder1_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="{left}_shoulder1_joint">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="{left}_shoulder1_motor"/>
+    </transmission>
+
     <link name="${left}_shoulder">
       <visual>
         <geometry>
@@ -135,6 +143,14 @@
       <limit lower="${-pi/3}" upper="${pi/3}" effort="100" velocity="1.0"/>
       <dynamics damping="0.1" friction="0.1"/>
     </joint>
+
+    <transmission name="{left}_foot_joint_pitch_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="{left}_foot_joint_pitch">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="{left}_foot_joint_pitch_motor"/>
+    </transmission>
 
     <link name="${left}_foot_r">
       <visual>
@@ -223,6 +239,14 @@
       <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
+    <transmission name="{left}_foot_joint_roll_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="{left}_foot_joint_roll">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="{left}_foot_joint_roll_motor"/>
+    </transmission>
+
     <link name="${left}_foot">
       <visual>
         <geometry>
@@ -252,6 +276,9 @@
       <axis xyz="0 0 1"/>
       <limit lower="${-100}" upper="${100}" effort="100" velocity="1.0"/>
       <dynamics damping="0.1" friction="0.1"/>
+
+      <!-- BIND TO TRASMISSION -->
+      <mimic joint="${left}_wheel_rear_joint" multiplier="1.0"/>
     </joint>
 
     <link name="${left}_wheel_front">
@@ -284,6 +311,14 @@
       <limit lower="${-100}" upper="${100}" effort="100" velocity="1.0"/>
       <dynamics damping="0.1" friction="0.1"/>
     </joint>
+
+    <transmission name="{left}_wheel_rear_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="{left}_wheel_rear_joint">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="{left}_wheel_rear_motor"/>
+    </transmission>
 
     <link name="${left}_wheel_rear">
       <visual>
@@ -319,6 +354,14 @@
       <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="1.0"/>
       <dynamics damping="0.5" friction="0.2"/>
     </joint>
+
+    <transmission name="{right}_shoulder1_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="{right}_shoulder1_joint">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="{right}_shoulder1_motor"/>
+    </transmission>
 
     <link name="${right}_shoulder">
       <visual>
@@ -407,6 +450,14 @@
       <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
+    <transmission name="{right}_foot_joint_pitch_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="{right}_foot_joint_pitch">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="{right}_foot_joint_pitch_motor"/>
+    </transmission>
+
     <link name="${right}_foot_r">
       <visual>
         <geometry>
@@ -494,6 +545,14 @@
       <dynamics damping="0.1" friction="0.1"/>
     </joint>
 
+    <transmission name="{right}_foot_joint_roll_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="{right}_foot_joint_roll">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="{right}_foot_joint_roll_motor"/>
+    </transmission>
+
     <link name="${right}_foot">
       <visual>
         <geometry>
@@ -523,6 +582,9 @@
       <axis xyz="0 0 1"/>
       <limit lower="${-100}" upper="${100}" effort="100" velocity="1.0"/>
       <dynamics damping="0.1" friction="0.1"/>
+
+      <!-- BIND TO TRASMISSION -->
+      <mimic joint="${right}_wheel_rear_joint" multiplier="1.0"/>
     </joint>
 
     <link name="${right}_wheel_front">
@@ -555,6 +617,14 @@
       <limit lower="${-100}" upper="${100}" effort="100" velocity="1.0"/>
       <dynamics damping="0.1" friction="0.1"/>
     </joint>
+
+    <transmission name="{right}_wheel_rear_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="{right}_wheel_rear_joint">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="{right}_wheel_rear_motor"/>
+    </transmission>
 
     <link name="${right}_wheel_rear">
       <visual>
