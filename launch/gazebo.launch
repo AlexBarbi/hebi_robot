@@ -1,6 +1,9 @@
 <launch>
-    <arg name="robot_name" default="HEBI"/>
+    <arg name="model_name" default="HEBI"/>
+    <!--
     <arg name="world_file" default="$(find hebi_robot)/worlds/no_gravity.world"/>
+    -->
+    <arg name="world_name" default="$(find gazebo_ros)/worlds/empty.world"/>
 
     <arg name="x_pos" default="0.0"/>
     <arg name="y_pos" default="0.0"/>
@@ -21,7 +24,6 @@
 
     <node name="controller_spawner" pkg="controller_manager" type="spawner" args="joint1_position_controller joint2_position_controller ... --controller-manager /controller_manager" />
 
-    <!-- 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
         respawn="false" output="screen">
         <param name="publish_frequency" type="double" value="50.0" />
